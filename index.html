@@ -20,7 +20,6 @@
     <!-- Optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <script type="module" src="js/controller.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body class="container">
@@ -98,7 +97,7 @@
                 </div>
 
                 <div class="card-action right-align">
-                    <a class="waves-effect waves-light btn">Расчет</a>
+                    <a id = "apply" class="waves-effect waves-light btn">Расчет</a>
                 </div>
 
             </div>
@@ -113,51 +112,7 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['X', 'Эйлера', 'Модифицированный Эйлера', 'Рунге-Кутты 4-го порядка'],
-          [0, 0, 1.5, -1.5],
-          [5, 20, 21.5, 18.5],
-          [10, 10, 11.5, 8.5],
-          [20, 0, 1.5, -1.5]
-        ]);
-
-        var options = {
-            title: 'График',
-            curveType: 'line',
-            legend: { position: 'bottom' },
-            vAxis: {
-                viewWindow: {
-                    min: -15,
-                    max: 25
-                }
-            },
-            hAxis: {
-                viewWindow: {
-                    min: -5,
-                    max: 25
-                }
-            },
-            explorer: {
-                actions: ['dragToZoom', 'rightClickToReset'],
-                axis: 'horizontal',
-                keepInBounds: true,
-                maxZoomIn: 10.0
-            }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-        chart.draw(data, options);
-      }
-
-      window.onresize = drawChart;
-    </script>
-
+    <script type="module" src="js/controller.js"></script>
 </body>
 
 </html>

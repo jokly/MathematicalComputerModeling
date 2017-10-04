@@ -16,6 +16,7 @@ function genXS(a, b, n) {
 }
 
 google.charts.load('current', {'packages':['corechart']});
+var isRedrawChart = false;
 
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
@@ -39,12 +40,13 @@ function drawChart() {
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
     chart.draw(data, options);
+
+    isRedrawChart = true;
 }
 
 document.getElementById('apply').onclick = () => {
     drawChart();   
 };
 
-window.onresize = drawChart;
+window.onresize = () => { if (isRedrawChart) { drawChart() } };

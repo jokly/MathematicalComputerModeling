@@ -23,30 +23,84 @@
     <script type="module" src="js/controller.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body>
-    <div class="row">
-        <div class="col s6 offset-s3 center-align">
+<body class="container">
+    <div class="row" id="menu">
+        <nav class="col s12">
+            <div class="nav-wrapper">
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a>Моделирование остывания кофе</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="row" id="mainCard">
+        <div class="col s12">
             <div class="card-panel">
-                <h3 style="margin-top: 0;">Решения</h1>
                 <div class="row">
-                    <input id="analit" type="checkbox">
-                    <label for="analit">Аналитическое решение</label>
+
+                    <div class="col s3 left-align">
+                        <div class="row s12">
+                            <div class="row">
+                                <input id="analit" type="checkbox">
+                                <label for="analit">Аналитическое решение</label>
+                            </div>
+                            <div class="row">
+                                <input id="euler" type="checkbox">
+                                <label for="euler">Метод Эйлера</label>
+                            </div>
+                            <div class="row">
+                                <input id="modify_euler" type="checkbox">
+                                <label for="modify_euler">Модифицированный метод Эйлера</label>
+                            </div>
+                            <div class="row">
+                                <input id="runge_kutt" type="checkbox">
+                                <label for="runge_kutt">Метод Рунге-Кутты 4-го порядка</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col s7 offset-s1">
+                        <div class="row s12 right-align">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="first_name" type="text" class="validate">
+                                    <label class="active" for="first_name2">Температура кофе</label>
+                                </div>
+
+                                <div class="input-field col s6">
+                                    <input id="first_name1" type="text" class="validate">
+                                    <label class="active" for="first_name2">Температура воздуха</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="first_name2" type="text" class="validate">
+                                    <label class="active" for="first_name2">Коэффициент остывания</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="first_name3" type="text" class="validate">
+                                    <label class="active" for="first_name2">Интервал времени</label>
+                                </div>
+
+                                <div class="input-field col s6">
+                                    <input id="first_name4" type="text" class="validate">
+                                    <label class="active" for="first_name2">Колличество шагов</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="row">
-                    <input id="euler" type="checkbox">
-                    <label for="euler">Метод Эйлера</label>
+
+                <div class="card-action right-align">
+                    <a class="waves-effect waves-light btn">Расчет</a>
                 </div>
-                <div class="row">
-                    <input id="modify_euler" type="checkbox">
-                    <label for="modify_euler">Модифицированный метод Эйлера</label>
-                </div>
-                <div class="row">
-                    <input id="runge_kutt" type="checkbox">
-                    <label for="runge_kutt">Метод Рунге-Кутты 4-го порядка</label>
-                </div>
-                <div class="row">
-                    <a class="waves-effect waves-light btn">Старт</a>
-                </div>
+
             </div>
         </div>
     </div>
@@ -105,4 +159,5 @@
     </script>
 
 </body>
+
 </html>

@@ -1,4 +1,4 @@
-function euler(a, b, xs, y0, f) {
+export function euler(a, b, xs, y0, f) {
     let n = xs.length;
     let h = (b - a) / (n - 1);
     let e = (y_prev, x_prev) => { y_prev + h * f(x_prev, y_prev) };
@@ -11,7 +11,7 @@ function euler(a, b, xs, y0, f) {
     return ys;
 }
 
-function euler_up(a, b, xs, y0, f) {
+export function euler_up(a, b, xs, y0, f) {
     let n = xs.length;
     let h = (b - a) / (n - 1);
     let e = (y_prev, x_prev, x, y_corrector) => { y_prev + h * (f(x_prev, y_prev) + f(x, y_corrector)) / 2 };
@@ -26,7 +26,7 @@ function euler_up(a, b, xs, y0, f) {
     return ys_up;
 }
 
-function euler_fixed(a, b, xs, y0, f) {
+export function euler_fixed(a, b, xs, y0, f) {
     let n = xs.length;
     let h = (b - a) / (n - 1);
     let k1 = (x, y) => { h * f(x, y) };
@@ -41,7 +41,7 @@ function euler_fixed(a, b, xs, y0, f) {
     return ys;
 }
 
-function runge_kutta(a, b, xs, y0, f) {
+export function runge_kutta(a, b, xs, y0, f) {
     let n = xs.length;
     let h = (b - a) / (n - 1);
     let k1 = (x, y) => { f(x, y) };

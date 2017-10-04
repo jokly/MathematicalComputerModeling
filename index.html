@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Математическое моделирование</title>
+    <meta charset="utf-8">
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Materialize CSS-->
+    <link rel="stylesheet" href="css/materialize.min.css">
+
+    <!-- Materialize JS-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <!-- GoogleCharts -->
+    <script type="text/javascript" src="js/loader.js"></script>
+
+    <!-- Optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <script type="text/javascript" src="js/methods.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div class="row">
+        <div class="col s6 offset-s3 center-align">
+            <div class="card-panel">
+                <h3 style="margin-top: 0;">Решения</h1>
+                <div class="row">
+                    <input id="analit" type="checkbox">
+                    <label for="analit">Аналитическое решение</label>
+                </div>
+                <div class="row">
+                    <input id="euler" type="checkbox">
+                    <label for="euler">Метод Эйлера</label>
+                </div>
+                <div class="row">
+                    <input id="modify_euler" type="checkbox">
+                    <label for="modify_euler">Модифицированный метод Эйлера</label>
+                </div>
+                <div class="row">
+                    <input id="runge_kutt" type="checkbox">
+                    <label for="runge_kutt">Метод Рунге-Кутты 4-го порядка</label>
+                </div>
+                <div class="row">
+                    <a class="waves-effect waves-light btn">Старт</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 center-align">
+            <div class="card-panel">
+                <div id="curve_chart" style="width: 100%; height: 400px"></div> 
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['X', 'Эйлера', 'Модифицированный Эйлера', 'Рунге-Кутты 4-го порядка'],
+          [0, 0, 1.5, -1.5],
+          [5, 20, 21.5, 18.5],
+          [10, 10, 11.5, 8.5],
+          [20, 0, 1.5, -1.5]
+        ]);
+
+        var options = {
+            title: 'График',
+            curveType: 'line',
+            legend: { position: 'bottom' },
+            vAxis: {
+                viewWindow: {
+                    min: -15,
+                    max: 25
+                }
+            },
+            hAxis: {
+                viewWindow: {
+                    min: -5,
+                    max: 25
+                }
+            },
+            explorer: {
+                actions: ['dragToZoom', 'rightClickToReset'],
+                axis: 'horizontal',
+                keepInBounds: true,
+                maxZoomIn: 10.0
+            }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+
+      window.onresize = drawChart;
+    </script>
+
+</body>
+</html>

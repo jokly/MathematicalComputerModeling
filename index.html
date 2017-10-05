@@ -51,43 +51,47 @@
                             <label for="euler">Метод Эйлера</label>
                         </div>
                         <div class="row">
-                            <input id="modify_euler" type="checkbox">
-                            <label for="modify_euler">Модифицированный метод Эйлера</label>
+                            <input id="euler_up" type="checkbox">
+                            <label for="euler_up">Модифицированный метод Эйлера</label>
                         </div>
                         <div class="row">
-                            <input id="runge_kutt" type="checkbox">
-                            <label for="runge_kutt">Метод Рунге-Кутты 4-го порядка</label>
+                            <input id="euler_fixed" type="checkbox">
+                            <label for="euler_fixed">Исправленный метод Эйлера</label>
+                        </div>
+                        <div class="row">
+                            <input id="runge_kutta" type="checkbox">
+                            <label for="runge_kutta">Метод Рунге-Кутты 4-го порядка</label>
                         </div>
                     </div>
 
                     <div class="col s7 offset-s1">
                         <div class="row">
                             <div class="input-field col s6">
-                                <input id="first_name" type="number" class="validate" value="80">
+                                <input id="temp_cof" type="number" class="validate" value="80">
                                 <label class="active" for="first_name2">Температура кофе °C</label>
                             </div>
 
                             <div class="input-field col s6">
-                                <input id="first_name1" type="number" class="validate" value="40">
+                                <input id="temp_air" type="number" class="validate" value="40">
                                 <label class="active" for="first_name2">Температура воздуха °C</label>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="input-field col s6">
-                                <input id="first_name2" type="number" class="validate" value="0.3">
+                                <input id="coef_r" type="number" class="validate" value="0.3">
                                 <label class="active" for="first_name2">Коэффициент остывания</label>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="input-field col s6">
-                                <input id="first_name3" type="number" class="validate" value="10" min="1">
+                                <input id="interval" type="number" class="validate" value="10" min="1">
                                 <label class="active" for="first_name2">Интервал времени</label>
                             </div>
 
                             <div class="input-field col s6">
-                                <input id="first_name4" type="number" class="validate" value="20" min="1">
+                                <input id="n_steps" type="number" class="validate" value="20" min="1">
                                 <label class="active" for="first_name2">Колличество шагов</label>
                             </div>
                         </div>

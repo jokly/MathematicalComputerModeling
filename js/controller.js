@@ -1,11 +1,12 @@
 import { euler, euler_up, euler_fixed, runge_kutta } from "./methods.js";
 
-function f(x, y) {
-    return x * x / 10;
+var env_temp, cooling_coef;
+function f(t, T) {
+    return -cooling_coef * (T - env_temp);
 }
 
 function genXS(a, b, n) {
-    let h = (b - a) / (n - 1);
+    let h = (b - a) / n;
     let xs = [];
 
     for (let i = 0; i < n; i++) {
@@ -18,16 +19,72 @@ function genXS(a, b, n) {
 google.charts.load('current', {'packages':['corechart']});
 var isRedrawChart = false;
 
-function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-      ['X', 'Эйлера', 'Модифицированный Эйлера', 'Рунге-Кутты 4-го порядка'],
-      [0, 0, 1.5, -1.5],
-      [5, 20, 21.5, 18.5],
-      [10, 10, 11.5, 8.5],
-      [20, 0, 1.5, -1.5]
-    ]);
+function getValues() {
+    let temp_cof = parseInt(document.getElementById('temp_cof').value);
 
-    var options = {
+    let temp_air = parseInt(document.getElementById('temp_air').value);
+    env_temp = temp_air;
+
+    let r = parseFloat(document.getElementById('coef_r').value);
+    cooling_coef = r;
+
+    let interval = parseInt(document.getElementById('interval').value);
+    let n = parseInt(document.getElementById('n_steps').value);
+
+    return {temp_cof, temp_air, r, interval, n};
+}
+
+function getXYs() {
+    let vals = getValues();
+
+    let xs = genXS(0, vals.interval, vals.n);
+    let yss = [];
+
+    if (document.getElementById('analit').checked) {
+        // TODO
+    }
+
+    if (document.getElementById('euler').checked) {
+        yss.push(euler(0, vals.interval, xs, vals.temp_cof, f));
+    }
+
+    if (document.getElementById('euler_up').checked) {
+        yss.push(euler_up(0, vals.interval, xs, vals.temp_cof, f));
+    }
+
+    if (document.getElementById('euler_fixed').checked) {
+        yss.push(euler_fixed(0, vals.interval, xs, vals.temp_cof, f));
+    }
+
+    if(document.getElementById('runge_kutta').checked) {
+        yss.push(runge_kutta(0, vals.interval, xs, vals.temp_cof, f));
+    }
+
+    return { xs, yss }
+}
+
+function drawChart() {
+    let xys = getXYs();
+    let xs = xys.xs;
+    let yss = xys.yss;
+
+    let data = new google.visualization.DataTable();
+    data.addColumn('number', 'X');
+    for (let i = 0; i < yss.length; i++) {
+        data.addColumn('number', yss[i].name);
+    }
+
+    for (let i = 0; i < xs.length; i++) {
+        let str = 'data.addRow([xs[i]';
+        for (let j = 0; j < yss.length; j++) {
+            let val = yss[j].ys[i];
+            str += ', ' + val;
+        }
+        str += ']);';
+        eval(str);
+    }
+
+    let options = {
         title: 'График',
         curveType: 'line',
         legend: { position: 'bottom' },
@@ -39,14 +96,21 @@ function drawChart() {
         }
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+    let chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
     chart.draw(data, options);
 
     isRedrawChart = true;
 }
 
 document.getElementById('apply').onclick = () => {
-    drawChart();   
+    let isChart = document.getElementById('radio_chart').checked;
+
+    if (isChart) {
+        drawChart();
+    } 
+    else {
+        alert('TODO');
+    }  
 };
 
 window.onresize = () => { if (isRedrawChart) { drawChart() } };

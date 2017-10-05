@@ -29,7 +29,7 @@
     <div class="row" id="menu">
         <nav class="col s12">
             <div class="nav-wrapper">
-                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <ul id="nav-mobile" class="left">
                     <li><a>Моделирование остывания кофе</a></li>
                 </ul>
             </div>
@@ -41,66 +41,72 @@
             <div class="card-panel">
                 <div class="row">
 
-                    <div class="col s3 left-align">
-                        <div class="row s12">
-                            <div class="row">
-                                <input id="analit" type="checkbox">
-                                <label for="analit">Аналитическое решение</label>
-                            </div>
-                            <div class="row">
-                                <input id="euler" type="checkbox">
-                                <label for="euler">Метод Эйлера</label>
-                            </div>
-                            <div class="row">
-                                <input id="modify_euler" type="checkbox">
-                                <label for="modify_euler">Модифицированный метод Эйлера</label>
-                            </div>
-                            <div class="row">
-                                <input id="runge_kutt" type="checkbox">
-                                <label for="runge_kutt">Метод Рунге-Кутты 4-го порядка</label>
-                            </div>
+                    <div class="col s3 offset-s1">
+                        <div class="row">
+                            <input id="analit" type="checkbox">
+                            <label for="analit">Аналитическое решение</label>
+                        </div>
+                        <div class="row">
+                            <input id="euler" type="checkbox">
+                            <label for="euler">Метод Эйлера</label>
+                        </div>
+                        <div class="row">
+                            <input id="modify_euler" type="checkbox">
+                            <label for="modify_euler">Модифицированный метод Эйлера</label>
+                        </div>
+                        <div class="row">
+                            <input id="runge_kutt" type="checkbox">
+                            <label for="runge_kutt">Метод Рунге-Кутты 4-го порядка</label>
                         </div>
                     </div>
 
                     <div class="col s7 offset-s1">
-                        <div class="row s12 right-align">
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <input id="first_name" type="number" class="validate" value="80">
-                                    <label class="active" for="first_name2">Температура кофе °C</label>
-                                </div>
-
-                                <div class="input-field col s6">
-                                    <input id="first_name1" type="number" class="validate" value="40">
-                                    <label class="active" for="first_name2">Температура воздуха °C</label>
-                                </div>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="first_name" type="number" class="validate" value="80">
+                                <label class="active" for="first_name2">Температура кофе °C</label>
                             </div>
 
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <input id="first_name2" type="number" class="validate" value="0.3">
-                                    <label class="active" for="first_name2">Коэффициент остывания</label>
-                                </div>
+                            <div class="input-field col s6">
+                                <input id="first_name1" type="number" class="validate" value="40">
+                                <label class="active" for="first_name2">Температура воздуха °C</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="first_name2" type="number" class="validate" value="0.3">
+                                <label class="active" for="first_name2">Коэффициент остывания</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="first_name3" type="number" class="validate" value="10" min="1">
+                                <label class="active" for="first_name2">Интервал времени</label>
                             </div>
 
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <input id="first_name3" type="number" class="validate" value="10" min="1">
-                                    <label class="active" for="first_name2">Интервал времени</label>
-                                </div>
-
-                                <div class="input-field col s6">
-                                    <input id="first_name4" type="number" class="validate" value="20" min="1">
-                                    <label class="active" for="first_name2">Колличество шагов</label>
-                                </div>
+                            <div class="input-field col s6">
+                                <input id="first_name4" type="number" class="validate" value="20" min="1">
+                                <label class="active" for="first_name2">Колличество шагов</label>
                             </div>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="card-action right-align">
-                    <a id = "apply" class="waves-effect waves-light btn">Расчет</a>
+                <div class="card-action">
+                    <div class="row">
+                        <div class="col s7">
+                            <input type="radio" name="chart" id="radio_chart" checked>
+                            <label for="radio_chart">График</label>
+                            <input type="radio" name="chart" id="radio_table">
+                            <label for="radio_table">Таблица</label>
+                        </div>
+                        <div class="col s5 right-align">
+                            <a id = "apply" class="waves-effect waves-light btn">Расчет</a>
+                        </div>
+                    </div>
                 </div>
 
             </div>

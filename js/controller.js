@@ -1,4 +1,4 @@
-import { euler, euler_up, euler_fixed, runge_kutta } from "./methods.js";
+import { analytical, euler, euler_up, euler_fixed, runge_kutta } from "./methods.js";
 
 var env_temp, cooling_coef;
 function f(t, T) {
@@ -41,7 +41,7 @@ function getXYs() {
     let yss = [];
 
     if (document.getElementById('analit').checked) {
-        // TODO
+        yss.push(analytical(xs, vals.temp_cof, vals.temp_air, vals.r));   
     }
 
     if (document.getElementById('euler').checked) {

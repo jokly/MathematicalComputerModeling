@@ -1,4 +1,16 @@
 
+export function analytical(xs, coffee_temp, env_temp, cooling_coef) {
+    let c = coffee_temp - env_temp;
+    let T  = (t) => { return c / Math.pow(Math.E, cooling_coef * t) + env_temp };
+    
+    let Ts = [];
+    for (let i = 0; i < xs.length; i++) {
+        Ts.push(T(xs[i]));
+    }
+
+    return {name: 'Аналитическое решение', ys: Ts};
+}
+
 export function euler(a, b, xs, y0, f) {
     let n = xs.length;
     let h = (b - a) / n;

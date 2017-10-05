@@ -117,13 +117,70 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" id="chart-card">
         <div class="col s12 center-align">
             <div class="card-panel">
                 <div id="curve_chart" style="width: 100%; height: 400px"></div> 
             </div>
         </div>
     </div>
+
+    <div class="row" id="table-card">
+        <div class="col s12 center-align">
+            <div class="card-action">
+                <div class="row" id="table">
+                    <div class="col s12 center-align">
+                        <div class="card-panel">
+                            <table class="striped centered">
+                                <thead>
+                                <tr>
+                                    <th rowspan="2">Шаг</th>
+                                    <th rowspan="2">Время</th>
+                                    <th colspan="2">Метод андрюхи</th>
+                                    <th colspan="2">Метод тихона</th>
+                                </tr>
+                                <tr>
+                                    <th>Температура</th>
+                                    <th>Ошибка</th>
+                                    <th>Температура</th>
+                                    <th>Ошибка</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td>Alvin</td>
+                                    <td>Eclair</td>
+                                    <td>$0.87</td>
+                                    <td>$0.87</td>
+                                    <td>$0.87</td>
+                                    <td>$0.87</td>
+                                </tr>
+                                <tr>
+                                    <td>Alan</td>
+                                    <td>Jellybean</td>
+                                    <td>$3.76</td>
+                                    <td>$0.87</td>
+                                    <td>$0.87</td>
+                                    <td>$0.87</td>
+                                </tr>
+                                <tr>
+                                    <td>Jonathan</td>
+                                    <td>Lollipop</td>
+                                    <td>$7.00</td>
+                                    <td>$0.87</td>
+                                    <td>$0.87</td>
+                                    <td>$0.87</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script type="module" src="js/controller.js"></script>
 </body>

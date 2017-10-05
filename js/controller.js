@@ -17,7 +17,11 @@ function genXS(a, b, n) {
 }
 
 google.charts.load('current', {'packages':['corechart']});
+
 var isRedrawChart = false;
+
+document.getElementById('chart-card').style.display = 'none';
+document.getElementById('table-card').style.display = 'none';
 
 function getValues() {
     let temp_cof = parseInt(document.getElementById('temp_cof').value);
@@ -98,18 +102,22 @@ function drawChart() {
 
     let chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
     chart.draw(data, options);
-
-    isRedrawChart = true;
 }
 
 document.getElementById('apply').onclick = () => {
     let isChart = document.getElementById('radio_chart').checked;
 
     if (isChart) {
+        isRedrawChart = true;
+        document.getElementById('chart-card').style.display = 'block';
+        document.getElementById('table-card').style.display = 'none';
+
         drawChart();
     } 
     else {
-        alert('TODO');
+        isRedrawChart = false;    
+        document.getElementById('chart-card').style.display = 'none';
+        document.getElementById('table-card').style.display = 'block';
     }  
 };
 

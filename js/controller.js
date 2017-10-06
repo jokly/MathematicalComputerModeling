@@ -68,10 +68,16 @@ function getXYs() {
     return { xs, yss }
 }
 
-function getDataTable() {
+function getDataTable(isErr = false) {
     let xys = getXYs();
     let xs = xys.xs;
     let yss = xys.yss;
+
+    let analit;
+    if (isErr) {
+        let vals = getValues();
+        analit = analytical(xs, vals.temp_cof, vals.temp_air, vals.r).ys;
+    }
 
     let data = new google.visualization.DataTable();
     data.addColumn('number', 'X');
@@ -82,7 +88,7 @@ function getDataTable() {
     for (let i = 0; i < xs.length; i++) {
         let str = 'data.addRow([xs[i]';
         for (let j = 0; j < yss.length; j++) {
-            let val = yss[j].ys[i];
+            let val = isErr ? Math.abs(yss[j].ys[i] - analit[i]) : yss[j].ys[i];
             str += ', ' + val;
         }
         str += ']);';
@@ -92,8 +98,8 @@ function getDataTable() {
     return data;    
 }
 
-function drawChart() {
-    let data = getDataTable();
+function drawChart(isErr = false) {
+    let data = getDataTable(isErr);
 
     let options = {
         title: 'График',
@@ -104,7 +110,8 @@ function drawChart() {
             axis: 'horizontal',
             keepInBounds: true,
             maxZoomIn: 10.0
-        }
+        },
+        pointSize: 1,
     };
 
     let chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
@@ -158,7 +165,7 @@ function fillTable() {
     for (let i = 0; i < xs.length; i++) {
         let tr_el = document.createElement('tr');
         appendElement(tr_el, 'th', i, {});
-        appendElement(tr_el, 'th', i * h, {});
+        appendElement(tr_el, 'th', (i * h).toFixed(3), {});
 
         for (let j = 0; j < yss.length; j++) {
             appendElement(tr_el, 'th', yss[j].ys[i].toFixed(3), {});
@@ -172,20 +179,20 @@ function fillTable() {
 document.getElementById('apply').onclick = () => {
     let isChart = document.getElementById('radio_chart').checked;
 
-    if (isChart) {
+    if (document.getElementById('radio_chart').checked || document.getElementById('radio_chart_err').checked) {
         isRedrawChart = true;
         document.getElementById('chart-card').style.display = 'block';
         document.getElementById('table-card').style.display = 'none';
 
-        drawChart();
+        drawChart(document.getElementById('radio_chart_err').checked);
     } 
-    else {
+    else if (document.getElementById('radio_table').checked){
         isRedrawChart = false;    
         document.getElementById('chart-card').style.display = 'none';
         document.getElementById('table-card').style.display = 'block';
 
         fillTable();
-    }  
+    }
 };
 
 document.getElementById('download_csv').onclick = () => {
@@ -200,4 +207,4 @@ document.getElementById('download_csv').onclick = () => {
     document.body.removeChild(link);
 };
 
-window.onresize = () => { if (isRedrawChart) { drawChart() } };
+window.onresize = () => { if (isRedrawChart) { drawChart(document.getElementById('radio_chart_err').checked) } };

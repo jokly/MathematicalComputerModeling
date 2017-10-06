@@ -4,7 +4,7 @@ export function analytical(xs, coffee_temp, env_temp, cooling_coef) {
     let T  = (t) => { return c / Math.pow(Math.E, cooling_coef * t) + env_temp };
     
     let Ts = [];
-    for (let i = 0; i < xs.length; i++) {
+    for (let i = 0; i < xs.length + 1; i++) {
         Ts.push(T(xs[i]));
     }
 
@@ -17,7 +17,7 @@ export function euler(a, b, xs, y0, f) {
     let e = (y_prev, x_prev) => { return y_prev + h * f(x_prev, y_prev) };
 
     let ys = [y0];
-    for (let i = 1; i < n; i++) {
+    for (let i = 1; i < n + 1; i++) {
         ys.push(e(ys[i - 1], xs[i - 1]));
     }
 
@@ -32,7 +32,7 @@ export function euler_up(a, b, xs, y0, f) {
     let ys = euler(a, b, xs, y0, f).ys;
     let ys_up = [y0];
 
-    for (let i = 1; i < n; i++) {
+    for (let i = 1; i < n + 1; i++) {
         ys_up.push(e(ys_up[i - 1], xs[i - 1], xs[i], ys[i]));
     }
 
@@ -47,7 +47,7 @@ export function euler_fixed(a, b, xs, y0, f) {
     let e = (x, y) => { return y + (k1(x, y) + k2(x, y)) / 2 };
 
     let ys = [y0];
-    for (let i = 1; i < n; i++) {
+    for (let i = 1; i < n + 1; i++) {
         ys.push(e(xs[i - 1], ys[i - 1]));
     }
 
@@ -64,7 +64,7 @@ export function runge_kutta(a, b, xs, y0, f) {
     let rk = (x, y) => { return y + h / 6 * (k1(x, y) + 2 * k2(x, y) + 2 * k3(x, y) + k4(x, y)) };
 
     let ys = [y0];
-    for (let i = 1; i < n; i++) {
+    for (let i = 1; i < n + 1; i++) {
         ys.push(rk(xs[i - 1], ys[i - 1]));
     }
 

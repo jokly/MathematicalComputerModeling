@@ -10,7 +10,7 @@ function genXS(a, b, n) {
     let h = (b - a) / n;
     let xs = [];
 
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n + 1; i++) {
         xs.push(a + h * i);
     }
 

@@ -68,7 +68,7 @@ function getXYs() {
     return { xs, yss }
 }
 
-function drawChart() {
+function getDataTable() {
     let xys = getXYs();
     let xs = xys.xs;
     let yss = xys.yss;
@@ -88,6 +88,12 @@ function drawChart() {
         str += ']);';
         eval(str);
     }
+
+    return data;    
+}
+
+function drawChart() {
+    let data = getDataTable();
 
     let options = {
         title: 'График',
@@ -180,6 +186,18 @@ document.getElementById('apply').onclick = () => {
 
         fillTable();
     }  
+};
+
+document.getElementById('download_csv').onclick = () => {
+    var csvFormattedDataTable = google.visualization.dataTableToCsv(getDataTable());
+    var encodedUri = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvFormattedDataTable);
+
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "table.csv");
+    document.body.appendChild(link);
+
+    link.click();
 };
 
 window.onresize = () => { if (isRedrawChart) { drawChart() } };

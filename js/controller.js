@@ -196,8 +196,8 @@ document.getElementById('download_csv').onclick = () => {
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", "table.csv");
     document.body.appendChild(link);
-
     link.click();
+    document.body.removeChild(link);
 };
 
 window.onresize = () => { if (isRedrawChart) { drawChart() } };

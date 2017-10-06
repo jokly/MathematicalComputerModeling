@@ -1,6 +1,7 @@
 import { analytical, euler, euler_up, euler_fixed, runge_kutta } from "./methods.js";
 
 var env_temp, cooling_coef;
+
 function f(t, T) {
     return -cooling_coef * (T - env_temp);
 }
@@ -104,6 +105,64 @@ function drawChart() {
     chart.draw(data, options);
 }
 
+function clearElement(elem) {
+    while (elem.firstChild) {
+        elem.removeChild(elem.firstChild);
+    }   
+}
+
+function appendElement(parent, child_type, text, options) {
+    let elem = document.createElement(child_type);
+    elem.textContent = text;
+
+    for (let key of Object.keys(options)) {
+        elem[key] = options[key];
+    }
+
+    parent.appendChild(elem);
+}
+
+function fillTable() {
+    let vals = getValues();
+    let h = vals.interval / vals.n;
+    let xys = getXYs();
+    let xs = xys.xs;
+    let yss = xys.yss;
+    let analit = analytical(xs, vals.temp_cof, vals.temp_air, vals.r);
+
+    let table_head = document.getElementById('table-head');
+    let table_err_temp = document.getElementById('table-err_temp');
+
+    clearElement(table_head);
+    clearElement(table_err_temp);
+
+    appendElement(table_head, 'th', 'Шаг', {rowSpan: '2'});
+
+    appendElement(table_head, 'th', 'Время', {rowSpan: '2'});
+   
+    for (let method of yss) {
+        appendElement(table_head, 'th', method.name, {colSpan: '2'});
+        appendElement(table_err_temp, 'th', 'Температура', {});
+        appendElement(table_err_temp, 'th', 'Ошибка', {});
+    }
+
+    let table_body = document.getElementById('table-body');
+    clearElement(table_body);
+
+    for (let i = 0; i < xs.length; i++) {
+        let tr_el = document.createElement('tr');
+        appendElement(tr_el, 'th', i, {});
+        appendElement(tr_el, 'th', i * h, {});
+
+        for (let j = 0; j < yss.length; j++) {
+            appendElement(tr_el, 'th', yss[j].ys[i].toFixed(3), {});
+            appendElement(tr_el, 'th', Math.abs(yss[j].ys[i] - analit.ys[i]).toFixed(3), {});
+        }
+
+        table_body.appendChild(tr_el);
+    }
+}
+
 document.getElementById('apply').onclick = () => {
     let isChart = document.getElementById('radio_chart').checked;
 
@@ -118,6 +177,8 @@ document.getElementById('apply').onclick = () => {
         isRedrawChart = false;    
         document.getElementById('chart-card').style.display = 'none';
         document.getElementById('table-card').style.display = 'block';
+
+        fillTable();
     }  
 };
 

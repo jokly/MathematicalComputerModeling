@@ -1,0 +1,7 @@
+#table-card {
+    font-size: 10pt;
+}
+
+#table-body > tr > th {
+    text-align: center;
+}

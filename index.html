@@ -22,7 +22,7 @@
     <!-- Optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/favicon.ico">
 </head>
 <body class="container">
@@ -30,7 +30,7 @@
         <nav class="col s12">
             <div class="nav-wrapper">
                 <ul id="nav-mobile" class="left">
-                    <li><a>Моделирование остывания кофе</a></li>
+                    <li>Моделирование остывания кофе</li>
                 </ul>
             </div>
         </nav>
@@ -131,47 +131,18 @@
                 <div class="row" id="table">
                     <div class="col s12 center-align">
                         <div class="card-panel">
-                            <table class="striped centered">
-                                <thead>
-                                <tr>
-                                    <th rowspan="2">Шаг</th>
-                                    <th rowspan="2">Время</th>
-                                    <th colspan="2">Метод андрюхи</th>
-                                    <th colspan="2">Метод тихона</th>
+                            <table class="highlight centered">
+                                <thead class="centered">
+                                <tr id="table-head">
+
                                 </tr>
-                                <tr>
-                                    <th>Температура</th>
-                                    <th>Ошибка</th>
-                                    <th>Температура</th>
-                                    <th>Ошибка</th>
+                                <tr id="table-err_temp">
+
                                 </tr>
                                 </thead>
 
-                                <tbody>
-                                <tr>
-                                    <td>Alvin</td>
-                                    <td>Eclair</td>
-                                    <td>$0.87</td>
-                                    <td>$0.87</td>
-                                    <td>$0.87</td>
-                                    <td>$0.87</td>
-                                </tr>
-                                <tr>
-                                    <td>Alan</td>
-                                    <td>Jellybean</td>
-                                    <td>$3.76</td>
-                                    <td>$0.87</td>
-                                    <td>$0.87</td>
-                                    <td>$0.87</td>
-                                </tr>
-                                <tr>
-                                    <td>Jonathan</td>
-                                    <td>Lollipop</td>
-                                    <td>$7.00</td>
-                                    <td>$0.87</td>
-                                    <td>$0.87</td>
-                                    <td>$0.87</td>
-                                </tr>
+                                <tbody id="table-body" class="centered">
+
                                 </tbody>
                             </table>
                         </div>

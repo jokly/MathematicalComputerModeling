@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Математическое моделирование</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Materialize CSS-->
+    <link rel="stylesheet" href="css/materialize.min.css">
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <!-- Materialize JS-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <!-- GoogleCharts -->
+    <script type="text/javascript" src="js/loader.js"></script>
+    <!-- MathJax  -->
+    <script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=MML_HTMLorMML"></script>
+
+    <!-- Optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/favicon.ico">
+</head>
+<body class="container">
+<div class="row" id="menu">
+    <nav class="col s12">
+        <div class="nav-wrapper">
+            <ul id="nav-mobile" class="left">
+                <li><a href="index.html">Моделирование остывания кофе</a></li>
+                <li><a href="faling.html">Моделирование падения тела</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="row" id="menu">
+    <nav class="col s12">
+        <div class="nav-wrapper">
+            <ul id="nav-mobile" class="left">
+                <li><h4>Моделирование падения тела</h4></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="row" id="mainCard">
+    <div class="col s12">
+        <div class="card-panel">
+            <div class="row">
+                <div class="col s11 offset-s1">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="height" type="number" class="validate" value="100">
+                            <label class="active">Высота <math><mi>h</mi></math></label>
+                        </div>
+
+                        <div class="input-field col s6">
+                            <input id="startSpeed" type="number" class="validate" value="10">
+                            <label class="active">Начальная скорость</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <input id="startTime" type="number" class="validate" value="1">
+                            <label class="active">Начальное время</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="finishTime" type="number" class="validate" value="10">
+                            <label class="active">Конечное время</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="timeStepsCount" type="number" class="validate" value="100">
+                            <label class="active">Колличество отсчетов</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="step" type="number" class="validate" value="0.5">
+                            <label class="active">Шаг</label>
+                        </div>
+                    </div>
+
+                    <!--Чек боксы-->
+
+
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <input value = "Сила Архимеда" id="arPower" type="number" class="validate">
+                            <label class="active">Сила Архимеда</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input value = "Сила притяжения" id="gravity" type="number" class="validate">
+                            <label class="active">Сила притяжения</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input value = "Сила сопротивления(линейная)" id="resPower_s" type="number" class="validate">
+                            <label class="active">Сила сопротивления(л)</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input value = "Сила сопротивления(квадратная)" id="resPower_l" type="number" class="validate">
+                            <label class="active">Сила сопротивления(кв)</label>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+            <div class="card-action">
+                <div class="row">
+                    <div class="col s7">
+                        <input type="radio" name="chart" id="radio_chart" checked>
+                        <label for="radio_chart">График</label>
+                        <input type="radio" name="chart" id="radio_table">
+                        <label for="radio_table">Таблица</label>
+                    </div>
+                    <div class="col s5 right-align">
+                        <a id="apply" class="waves-effect waves-light btn">Расчет</a>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

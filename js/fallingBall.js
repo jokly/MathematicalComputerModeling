@@ -190,7 +190,7 @@ document.getElementById("apply").onclick = function () {
     let vals = getVals();
 
     let typeChart = document.getElementById("typeChart");
-    isSpeed = typeChart.options[typeChart.selectedIndex].value;
+    isSpeed = typeChart.options[typeChart.selectedIndex].value == 'true';
 
     if (document.getElementById('radio_chart').checked) {
         isRedrawChart = true;

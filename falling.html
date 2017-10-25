@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Математическое моделирование</title>
+
+
+    <!-- Materialize CSS-->
+    <link rel="stylesheet" href="css/materialize.min.css">
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <!-- Materialize JS-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <!-- GoogleCharts -->
+    <script type="text/javascript" src="js/loader.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/favicon.ico">
+</head>
+<body class="container">
+<div class="row" id="menu">
+    <nav class="col s12">
+        <div class="nav-wrapper">
+            <ul id="nav-mobile" class="left">
+                <li><a href="index.html">Моделирование остывания кофе</a></li>
+                <li><a href="faling.html">Моделирование падения тела</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="row" id="title">
+    <nav class="col s12">
+        <div class="nav-wrapper">
+            <ul id="nav-title" class="left">
+                <li><h4>Моделирование падения тела</h4></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="row" id="mainCard">
+    <div class="col s12">
+        <div class="card-panel">
+            <div class="row">
+                <div class="col s11 offset-s1">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="height" type="number" class="validate" value="100">
+                            <label class="active">Высота <math><mi>h</mi></math></label>
+                        </div>
+
+                        <div class="input-field col s6">
+                            <input id="startSpeed" type="number" class="validate" value="5">
+                            <label class="active">Начальная скорость</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input id="finishTime" type="number" class="validate" value="25">
+                            <label class="active">Конечное время</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="pointCount" type="number" class="validate" value="25">
+                            <label class="active">Колличество точек</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="gravity" type="number" class="validate" value="9.8">
+                            <label class="active">Сила тяжести</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <input id="radius" type="number" class="validate" value="3">
+                            <label class="active">Радиус Шара</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="mass" type="number" class="validate" value="50">
+                            <label class="active">Масса шара</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="dens" type="number" class="validate" value="1">
+                            <label class="active">Плотность среды</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="vias" type="number" class="validate" value="0.1">
+                            <label class="active">Вязкость среды</label>
+                        </div>
+                    </div>
+
+                    <div class="col s3">
+                        <div class="row">
+                            <input id="arPower" type="checkbox">
+                            <label for="arPower">Cила Архимеда</label>
+                        </div>
+                        <div class="row">
+                            <input id="disWater" type="checkbox">
+                            <label for="disWater">Сила споротивления жидкости</label>
+                        </div>
+                        <div class="row">
+                            <input id="disGas" type="checkbox">
+                            <label for="disGas">Сила сопротивления газа</label>
+                        </div>
+                        <div class="row">
+                              <div class="input-field col s12">
+                                <select id="typeChart">
+                                    <option value="true" selected>Скорость</option>
+                                    <option value="false">Координата</option>
+                                </select>
+                                <label>График</label>
+                              </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+
+            <div class="card-action">
+                <div class="row">
+                    <div class="col s7 offset-s1">
+                        <input type="radio" name="chart" id="radio_chart" checked>
+                        <label for="radio_chart">График</label>
+                        <input type="radio" name="chart" id="radio_table">
+                        <label for="radio_table">Таблица</label>
+                        <input type="radio" name="chart" id="radio_doc">
+                        <label for="radio_doc">Документ</label>
+                    </div>
+                    <div class="col s4 right-align">
+                        <a id="apply" class="waves-effect waves-light btn">Расчет</a>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+<div class="row" id="chart-card">
+    <div class="col s12 center-align">
+        <div class="card-panel">
+            <div id="curve_chart" style="width: 100%; height: 400px"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="table-card">
+    <div class="col s12 center-align">
+        <div class="card-action">
+            <div class="row" id="table">
+                <div class="col s12 center-align">
+                    <div class="card-panel">
+                        <table class="highlight centered">
+                            <thead class="centered">
+                            <tr id="table-head">
+
+                            </tr>
+                            </thead>
+                            <tbody id="table-body" class="centered">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/fallingBall.js"></script>
+</body>
+</html>

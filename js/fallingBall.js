@@ -45,35 +45,46 @@ function fillTable(data) {
     }
 }
 
-function getDataTable(vals, isSpeed, isCoord) {
+function getDataTable(vals, type) {
     let data = new google.visualization.DataTable();
 
     data.addColumn('number', 'X');
 
-    if (isSpeed) {
+    if (type === 'speed') {
         data.addColumn('number', 'Скорость'); 
     }
-    if (isCoord) {
+    else if (type === 'coord') {
         data.addColumn('number', 'Координата');  
+    }
+    else if (type === 'acc') {
+        data.addColumn('number', 'Ускорение');
+    }
+    else if (type === 'all') {
+        data.addColumn('number', 'Координата'); 
+        data.addColumn('number', 'Скорость');  
+        data.addColumn('number', 'Ускорение'); 
     }
 
     for (let i = 0; i < vals.xs.length; i++) {
-        if (isSpeed && !isCoord) {
+        if (type === 'speed') {
             data.addRow([vals.xs[i], vals.dys[i]]); 
         }
-        else if (isCoord && ! isSpeed) {
+        else if (type === 'coord') {
             data.addRow([vals.xs[i], vals.ys[i]]); 
         }
-        else if (isSpeed && isCoord) {
-            data.addRow([vals.xs[i], vals.ys[i], vals.dys[i]]);    
+        else if (type === 'acc') {
+            data.addRow([vals.xs[i], vals.as[i]])
+        }
+        else if (type === 'all') {
+            data.addRow([vals.xs[i], vals.ys[i], vals.dys[i], vals.as[i]]);    
         }
     }
 
     return data;    
 }
 
-function drawChart(vals, isSpeed, isErr = false) {
-    let data = getDataTable(vals, isSpeed, !isSpeed);
+function drawChart(vals, type) {
+    let data = getDataTable(vals, type);
 
     let options = {
         title: 'График',
@@ -129,7 +140,12 @@ function euler_up(a, b, n, y0, dy0, f) {
         ys.push(y);
     }
 
-    return {xs: e.xs, ys: ys, dys: dys};
+    let as = [];
+    for (let i = 0; i < n; i++) {
+        as.push((dys[i + 1] - dys[i]) / (e.xs[i + 1] - e.xs[i]))
+    }
+
+    return {xs: e.xs, ys: ys, dys: dys, as: as};
 }
 
 function _compute(start_time, time_span, n, height, velocity, fg, fa, fc1, fc2) {
@@ -193,20 +209,20 @@ window.onload = function () {
 };
 
 var isRedrawChart = false;
-var isSpeed = false;
+var typeChart = 'speed';
 
 document.getElementById("apply").onclick = function () {
     let vals = getVals();
 
-    let typeChart = document.getElementById("typeChart");
-    isSpeed = typeChart.options[typeChart.selectedIndex].value == 'true';
+    let typeChartEl = document.getElementById("typeChart");
+    typeChart = typeChartEl.options[typeChartEl.selectedIndex].value;
 
     if (document.getElementById('radio_chart').checked) {
         isRedrawChart = true;
         document.getElementById('chart-card').style.display = 'block';
         document.getElementById('table-card').style.display = 'none';
 
-        drawChart(vals, isSpeed);
+        drawChart(vals, typeChart);
     }
     else if (document.getElementById('radio_table').checked){
         isRedrawChart = false;
@@ -231,4 +247,4 @@ document.getElementById('download_csv').onclick = function() {
     document.body.removeChild(link);
 };
 
-window.onresize = () => { if (isRedrawChart) { drawChart(getVals(), isSpeed) } };
+window.onresize = () => { if (isRedrawChart) { drawChart(getVals(), typeChart) } };

@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="css/materialize.min.css">
 
     <!-- jQuery -->
-    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-3.2.1.min.js"></script>
     <!-- Materialize JS-->
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/lib/materialize.min.js"></script>
     <!-- GoogleCharts -->
-    <script type="text/javascript" src="js/loader.js"></script>
+    <script type="text/javascript" src="js/lib/loader.js"></script>
     <!-- MathJax  -->
     <script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=MML_HTMLorMML"></script>
 
@@ -37,10 +37,10 @@
         </nav>
     </div>
 
-    <div class="row" id="menu">
+    <div class="row" id="menu1">
         <nav class="col s12">
             <div class="nav-wrapper">
-                <ul id="nav-mobile" class="left">
+                <ul id="nav-mobile1" class="left">
                     <li><h4>Моделирование остывания кофе</h4></li>
                 </ul>
             </div>
@@ -150,31 +150,31 @@
                         <div class="row">
                             <div class="input-field col s6">
                                 <input id="temp_cof" type="number" class="validate" value="80">
-                                <label class="active" for="first_name2">Температура кофе, °C</label>
+                                <label class="active" for="temp_cof">Температура кофе, °C</label>
                             </div>
 
                             <div class="input-field col s6">
                                 <input id="temp_air" type="number" class="validate" value="40">
-                                <label class="active" for="first_name2">Температура воздуха, °C</label>
+                                <label class="active" for="temp_air">Температура воздуха, °C</label>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="input-field col s6">
                                 <input id="coef_r" type="number" class="validate" value="0.3" step="0.1" min="0">
-                                <label class="active" for="first_name2">Коэффициент остывания</label>
+                                <label class="active" for="coef_r">Коэффициент остывания</label>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="input-field col s6">
                                 <input id="interval" type="number" class="validate" value="10" min="1">
-                                <label class="active" for="first_name2">Интервал времени, мин</label>
+                                <label class="active" for="interval">Интервал времени, мин</label>
                             </div>
 
                             <div class="input-field col s6">
                                 <input id="n_steps" type="number" class="validate" value="20" min="1">
-                                <label class="active" for="first_name2">Колличество шагов</label>
+                                <label class="active" for="n_steps">Колличество шагов</label>
                             </div>
                         </div>
                     </div>
@@ -238,7 +238,7 @@
     </div>
 
 
-    <script type="module" src="js/controller.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
 </body>
 
 </html>

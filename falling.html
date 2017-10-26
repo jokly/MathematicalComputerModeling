@@ -47,7 +47,7 @@
                 <div class="col s11 offset-s1">
                     <div class="row">
                         <div class="input-field col s6">
-                            <input id="height" type="number" class="validate" value="100">
+                            <input id="height" type="number" class="validate" value="100" min="0">
                             <label class="active">Высота <math><mi>h</mi></math></label>
                         </div>
 
@@ -59,35 +59,31 @@
 
                     <div class="row">
                         <div class="input-field col s4">
-                            <input id="finishTime" type="number" class="validate" value="25">
+                            <input id="finishTime" type="number" class="validate" value="25" min="0">
                             <label class="active">Конечное время</label>
                         </div>
                         <div class="input-field col s4">
-                            <input id="pointCount" type="number" class="validate" value="25">
+                            <input id="pointCount" type="number" class="validate" value="25" min="1">
                             <label class="active">Колличество точек</label>
                         </div>
                         <div class="input-field col s4">
-                            <input id="gravity" type="number" class="validate" value="9.8">
+                            <input id="gravity" type="number" class="validate" value="9.8" min="0" step="0.1">
                             <label class="active">Сила тяжести</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s3">
-                            <input id="radius" type="number" class="validate" value="3">
+                            <input id="radius" type="number" class="validate" value="3" min="0">
                             <label class="active">Радиус Шара</label>
                         </div>
                         <div class="input-field col s3">
-                            <input id="mass" type="number" class="validate" value="50">
+                            <input id="mass" type="number" class="validate" value="50" min="0">
                             <label class="active">Масса шара</label>
                         </div>
                         <div class="input-field col s3">
-                            <input id="dens" type="number" class="validate" value="1">
+                            <input id="dens" type="number" class="validate" value="1" min="0">
                             <label class="active">Плотность среды</label>
-                        </div>
-                        <div class="input-field col s3">
-                            <input id="vias" type="number" class="validate" value="0.1">
-                            <label class="active">Вязкость среды</label>
                         </div>
                     </div>
 

@@ -245,7 +245,6 @@ function getVals() {
     let radius = parseFloat(document.getElementById("radius").value);
     let mass = parseFloat(document.getElementById("mass").value);
     let dens_env = parseFloat(document.getElementById("dens").value);
-    let vias = parseFloat(document.getElementById("vias").value);
 
     let fa_checked = 0, fc1_checked = 0, fc2_checked = 0;
 

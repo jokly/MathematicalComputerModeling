@@ -45,7 +45,7 @@ function fillTable(data) {
     }
 }
 
-function drawChart(vals, isSpeed, isErr = false) {
+function getDataTable(vals, isSpeed, isCoord) {
     let data = new google.visualization.DataTable();
 
     data.addColumn('number', 'X');
@@ -53,18 +53,27 @@ function drawChart(vals, isSpeed, isErr = false) {
     if (isSpeed) {
         data.addColumn('number', 'Скорость'); 
     }
-    else {
+    if (isCoord) {
         data.addColumn('number', 'Координата');  
     }
 
     for (let i = 0; i < vals.xs.length; i++) {
-        if (isSpeed) {
+        if (isSpeed && !isCoord) {
             data.addRow([vals.xs[i], vals.dys[i]]); 
         }
-        else {
+        else if (isCoord && ! isSpeed) {
             data.addRow([vals.xs[i], vals.ys[i]]); 
         }
+        else if (isSpeed && isCoord) {
+            data.addRow([vals.xs[i], vals.ys[i], vals.dys[i]]);    
+        }
     }
+
+    return data;    
+}
+
+function drawChart(vals, isSpeed, isErr = false) {
+    let data = getDataTable(vals, isSpeed, !isSpeed);
 
     let options = {
         title: 'График',
@@ -208,6 +217,18 @@ document.getElementById("apply").onclick = function () {
     }
 
     fillTable(vals)
+};
+
+document.getElementById('download_csv').onclick = function() {
+    var csvFormattedDataTable = google.visualization.dataTableToCsv(getDataTable(getVals(), true, true));
+    var encodedUri = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvFormattedDataTable);
+
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "table.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 };
 
 window.onresize = () => { if (isRedrawChart) { drawChart(getVals(), isSpeed) } };

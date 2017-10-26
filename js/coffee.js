@@ -267,7 +267,7 @@ document.getElementById('apply').onclick = function() {
 };
 
 document.getElementById('download_csv').onclick = function() {
-    var csvFormattedDataTable = google.visualization.dataTabvaroCsv(getDataTable());
+    var csvFormattedDataTable = google.visualization.dataTableToCsv(getDataTable());
     var encodedUri = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvFormattedDataTable);
 
     var link = document.createElement("a");

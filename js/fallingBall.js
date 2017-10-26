@@ -52,9 +52,11 @@ function getDataTable(vals, type) {
 
     if (type === 'speed') {
         data.addColumn('number', 'Скорость'); 
+        data.addColumn('number', 'Аналитическая скорость')
     }
     else if (type === 'coord') {
         data.addColumn('number', 'Координата');  
+        data.addColumn('number', 'Аналитическая Координата')
     }
     else if (type === 'acc') {
         data.addColumn('number', 'Ускорение');
@@ -67,10 +69,10 @@ function getDataTable(vals, type) {
 
     for (let i = 0; i < vals.xs.length; i++) {
         if (type === 'speed') {
-            data.addRow([vals.xs[i], vals.dys[i]]); 
+            data.addRow([vals.xs[i], vals.dys[i], vals.an_solve.dys[i]]); 
         }
         else if (type === 'coord') {
-            data.addRow([vals.xs[i], vals.ys[i]]); 
+            data.addRow([vals.xs[i], vals.ys[i], vals.an_solve.ys[i]]); 
         }
         else if (type === 'acc') {
             data.addRow([vals.xs[i], vals.as[i]])
@@ -162,6 +164,77 @@ function compute(start_time, time_span, n, height, velocity, d_env, d, g, r, k1,
     return _compute(time_span, n, height, velocity, fg, fa, fc1, fc2);
 }
 
+function an_solve(xs, height, velocity, mass, k1, k2, fg, d_env, v) {
+    let isAr = document.getElementById("arPower").checked;
+    let isLin = document.getElementById("disWater").checked;
+    let isSq = document.getElementById("disGas").checked;
+
+    let g = fg(0);
+    let fy, fv;
+
+    if (isAr && !isLin && !isSq) {
+        g = fg(0) * (1 - d_env * v / mass);
+
+        fy = function (t) {
+            return height + velocity * t - (g / 2) * t * t;    
+        };
+        fv = function(t) {
+             return velocity - g * t;
+        };
+    }
+    else if (!isAr && isLin && !isSq) {
+        let exp = function(t) {
+            return Math.exp(-(k1 / mass) * t);
+        }
+
+        fy = function(t) {
+            return -g * mass / k1 * t - (velocity + g * mass / k1) * (mass / k1) * (exp(t) - 1) + height;
+        };
+        fv = function(t) {
+            return -g * mass / k1 + (velocity + g * mass / k1) * exp(t);
+        };
+    }
+    else if (isAr && isLin && !isSq) {
+        g = fg(0) * (1 - d_env * v / mass);
+
+        let exp = function(t) {
+            return Math.exp(-(k1 / mass) * t);
+        };
+
+        fy = function(t) {
+            return -g * mass / k1 * t - (velocity + g * mass / k1) * (mass / k1) * (exp(t) - 1) + height;
+        };
+        fv = function(t) {
+            return -g * mass / k1 + (velocity + g * mass / k1) * exp(t);
+        };
+    }
+    else if (!isAr && !isLin && !isSq) {
+        fy = function(t) {
+            return height + velocity * t - (g / 2) * t * t;
+        };
+        fv = function(t) {
+            return velocity - g * t;
+        }
+    }
+
+    let ys = [], dys = [];
+
+    for (let i = 0; i < xs.length; i++) {
+        let h = fy(xs[i]);
+        let v = fv(xs[i]);
+
+        if (h <= 0) {
+            h = 0;
+            v = 0;
+        }
+
+        ys.push(h);
+        dys.push(v);
+    }
+
+    return {ys: ys, dys: dys};
+}
+
 function getVals() {
     let height = parseFloat(document.getElementById("height").value);
     let startSpeed = parseFloat(document.getElementById("startSpeed").value);
@@ -198,7 +271,10 @@ function getVals() {
     let fc1 = function(dy) { return fc1_checked * k1 / mass * dy; };
     let fc2 = function(dy) { return fc2_checked * k2 / mass * Math.pow(dy, 2); };
 
-    return _compute(startTime, finishTime - startTime, pointCount, height, startSpeed, fg, fa, fc1, fc2);
+    let vals = _compute(startTime, finishTime - startTime, pointCount, height, startSpeed, fg, fa, fc1, fc2);
+    vals.an_solve = an_solve(vals.xs, height, startSpeed, mass, k1, k2, fg, dens_env, v);
+    console.log(vals)
+    return vals;
 }
 
 window.onload = function () {

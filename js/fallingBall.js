@@ -49,14 +49,17 @@ function getDataTable(vals, type) {
     let data = new google.visualization.DataTable();
 
     data.addColumn('number', 'X');
+    let isShowAnSol = vals.an_solve.isShow;
 
     if (type === 'speed') {
         data.addColumn('number', 'Скорость'); 
-        data.addColumn('number', 'Аналитическая скорость')
+        if (isShowAnSol)
+            data.addColumn('number', 'Аналитическая скорость');
     }
     else if (type === 'coord') {
-        data.addColumn('number', 'Координата');  
-        data.addColumn('number', 'Аналитическая Координата')
+        data.addColumn('number', 'Координата'); 
+        if (isShowAnSol) 
+            data.addColumn('number', 'Аналитическая Координата');
     }
     else if (type === 'acc') {
         data.addColumn('number', 'Ускорение');
@@ -69,10 +72,16 @@ function getDataTable(vals, type) {
 
     for (let i = 0; i < vals.xs.length; i++) {
         if (type === 'speed') {
-            data.addRow([vals.xs[i], vals.dys[i], vals.an_solve.dys[i]]); 
+            if (isShowAnSol)
+                data.addRow([vals.xs[i], vals.dys[i], vals.an_solve.dys[i]]); 
+            else
+                data.addRow([vals.xs[i], vals.dys[i]]); 
         }
         else if (type === 'coord') {
-            data.addRow([vals.xs[i], vals.ys[i], vals.an_solve.ys[i]]); 
+            if (isShowAnSol)
+                data.addRow([vals.xs[i], vals.ys[i], vals.an_solve.ys[i]]);
+            else
+                data.addRow([vals.xs[i], vals.ys[i]]); 
         }
         else if (type === 'acc') {
             data.addRow([vals.xs[i], vals.as[i]])
@@ -220,8 +229,8 @@ function an_solve(xs, height, velocity, mass, k1, k2, fg, d_env, v) {
     let ys = [], dys = [];
 
     for (let i = 0; i < xs.length; i++) {
-        let h = fy(xs[i]);
-        let v = fv(xs[i]);
+        let h = fy === undefined ? 0 : fy(xs[i]) ;
+        let v = fv === undefined ? 0 : fv(xs[i]);
 
         if (h <= 0) {
             h = 0;
@@ -231,8 +240,12 @@ function an_solve(xs, height, velocity, mass, k1, k2, fg, d_env, v) {
         ys.push(h);
         dys.push(v);
     }
+    let isShow = true;
+    if (fy === undefined || fv === undefined) {
+        isShow = false;
+    }
 
-    return {ys: ys, dys: dys};
+    return {isShow: isShow, ys: ys, dys: dys};
 }
 
 function getVals() {
@@ -321,5 +334,40 @@ document.getElementById('download_csv').onclick = function() {
     link.click();
     document.body.removeChild(link);
 };
+
+document.getElementById('arPower').onclick = function() {
+    let el = document.getElementById('arPower');
+
+    if (el.checked) {
+        document.getElementById('disGas').disabled = true;
+    }    
+    else if (!document.getElementById('disWater').checked) {
+        document.getElementById('disGas').disabled = false;    
+    }
+};
+
+document.getElementById('disWater').onclick = function() {
+    let el = document.getElementById('disWater');
+
+    if (el.checked) {
+        document.getElementById('disGas').disabled = true;
+    }    
+    else if (!document.getElementById('arPower').checked) {
+        document.getElementById('disGas').disabled = false;    
+    }   
+}
+
+document.getElementById('disGas').onclick = function() {
+    let el = document.getElementById('disGas');
+
+    if (el.checked) {
+        document.getElementById('arPower').disabled = true;
+        document.getElementById('disWater').disabled = true;
+    }    
+    else {
+        document.getElementById('arPower').disabled = false;   
+        document.getElementById('disWater').disabled = false; 
+    }   
+}
 
 window.onresize = () => { if (isRedrawChart) { drawChart(getVals(), typeChart) } };

@@ -35,7 +35,7 @@
     <nav class="col s12">
         <div class="nav-wrapper">
             <ul id="nav-title" class="left">
-                <li><h4>Моделирование падения тела</h4></li>
+                <li><h4>Моделирование полета тела</h4></li>
             </ul>
         </div>
     </nav>
@@ -47,14 +47,21 @@
             <div class="row">
                 <div class="col s11 offset-s1">
                     <div class="row">
-                        <div class="input-field col s6">
-                            <input id="height" type="number" class="validate" value="100" min="0">
+                        <div class="input-field col s3">
+                            <input id="height" type="number" class="validate" value="10" min="0">
                             <label class="active">Высота <math><mi>h</mi></math></label>
                         </div>
-
-                        <div class="input-field col s6">
-                            <input id="startSpeed" type="number" class="validate" value="5">
+                        <div class="input-field col s3">
+                            <input id="x0" type="number" class="validate" value="5" min="0">
+                            <label class="active">Начальная координата по X</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="startSpeed" type="number" class="validate" value="10">
                             <label class="active">Начальная скорость</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="angle" type="number" class="validate" value="15" min="0">
+                            <label class="active">Угол</label>
                         </div>
                     </div>
 
@@ -86,6 +93,10 @@
                             <input id="dens" type="number" class="validate" value="1" min="0">
                             <label class="active">Плотность среды</label>
                         </div>
+                        <div class="input-field col s3">
+                            <input id="dens" type="number" class="validate" value="3">
+                            <label class="active">Скорость среды</label>
+                        </div>
                     </div>
 
                     <div class="col s3">
@@ -95,20 +106,21 @@
                         </div>
                         <div class="row">
                             <input id="disWater" type="checkbox">
-                            <label for="disWater">Сила споротивления жидкости</label>
+                            <label for="disWater">Сила споротивления жидкости (лин.)</label>
                         </div>
                         <div class="row">
                             <input id="disGas" type="checkbox">
-                            <label for="disGas">Сила сопротивления газа</label>
+                            <label for="disGas">Сила сопротивления газа (квад.)</label>
                         </div>
                     </div>
 
 
                     <div class="input-field col s3">
                         <select id="typeChart">
-                            <option value="speed" selected>Скорость</option>
-                            <option value="coord">Координата</option>
-                            <option value="acc">Ускорение</option>
+                            <option value="speedX" selected>Скорость по X</option>
+                            <option value="speedY">Скорость по Y</option>
+                            <option value="coordX">Координата по X</option>
+                            <option value="coordY">Координата по Y</option>
                         </select>
                         <label>График</label>
                     </div>
@@ -166,6 +178,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="js/fallingBall.js"></script>
+<script type="text/javascript" src="js/horizontal_throw.js"></script>
 </body>
 </html>

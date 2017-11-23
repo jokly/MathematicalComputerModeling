@@ -164,15 +164,6 @@ function _compute(start_time, time_span, n, height, velocity, fg, fa, fc1, fc2) 
     return euler_up(start_time, time_span, n, height, velocity, f);
 }
 
-function compute(start_time, time_span, n, height, velocity, d_env, d, g, r, k1, k2) {
-    let m = 4 / 3 * Math.PI * Math.pow(r, 3) * d;
-    let fg = function (y) { return g(y); };
-    let fa = function (y) { return d_env / d * g(y); };
-    let fc2 = function (dy) { return k2() / m * Math.pow(dy, 2); };
-    let fc1 = function (dy) { return k1() / m * dy; };
-    return _compute(time_span, n, height, velocity, fg, fa, fc1, fc2);
-}
-
 function an_solve(xs, height, velocity, mass, k1, k2, fg, d_env, v) {
     let isAr = document.getElementById("arPower").checked;
     let isLin = document.getElementById("disWater").checked;
@@ -275,13 +266,13 @@ function getVals() {
 
     let v = 4 / 3 * Math.PI * Math.pow(radius, 3);
     let dens = v / mass;
-    let k1 = dens / dens_env;
-    let k2 = 2;
+    let k1 = function(dy) { return 6 * Math.PI * 0.01 * radius * dens; };
+    let k2 = function(dy) { return 0.5 * 0.2 * 0.01 * Math.PI * Math.pow(radius, 2); };
 
     let fg = function(y) { return g; };
-    let fa = function(y) { return fa_checked * dens_env / dens * g; };
-    let fc1 = function(dy) { return fc1_checked * k1 / mass * dy; };
-    let fc2 = function(dy) { return fc2_checked * k2 / mass * Math.pow(dy, 2); };
+    let fa = function(y) { return fa_checked * (dens_env * v) / mass * g; };
+    let fc1 = function(dy) { return fc1_checked * k1(dy) / mass * dy; };
+    let fc2 = function(dy) { return fc2_checked * k2(dy) / mass * Math.pow(dy, 2); };
 
     let vals = _compute(startTime, finishTime - startTime, pointCount, height, startSpeed, fg, fa, fc1, fc2);
     vals.an_solve = an_solve(vals.xs, height, startSpeed, mass, k1, k2, fg, dens_env, v);

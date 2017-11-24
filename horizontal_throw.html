@@ -91,6 +91,16 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="input-field col s6">
+                            <input id="vlabel" type="number" class="validate" value="3" min="0" disabled>
+                            <label class="active">Объем шара</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="denslabel" type="number" class="validate" value="50" min="0" disabled>
+                            <label class="active">Плотность шара</label>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="input-field col s4">
                             <input id="dens" type="number" class="validate" value="1" min="0">
                             <label class="active">Плотность среды</label>
@@ -123,6 +133,7 @@
 
                     <div class="input-field col s3">
                         <select id="typeChart">
+                            <option value="flyTr">Трвектрия</option>
                             <option value="speedX" selected>Скорость по X</option>
                             <option value="speedY">Скорость по Y</option>
                             <option value="coordX">Координата по X</option>

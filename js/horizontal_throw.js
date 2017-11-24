@@ -215,6 +215,10 @@ function getVals() {
     let v = 4 / 3 * Math.PI * Math.pow(radius, 3); // объем шара
     let ballDens = mass / v; // плотность
 
+    document.getElementById('denslabel').value = ballDens;
+    document.getElementById('vlabel').value = v;
+
+
     return solve(finishTime, height, pointCount, startSpeed, angle, radius, ballDens, dens_env, dens_speed, fa_checked, fc1_checked, fc2_checked);
 }
 

@@ -129,8 +129,10 @@ function _solve(a, b, n, x0, y0, vx0, vy0, fx, fy) {
     for (let i = 1; i < xs.length; i++) {
         if (xs[i] < 0)
             xs = 0;
-        if (ys[i] < 0)
+        if (ys[i] < 0) {
             ys[i] = 0;
+            vys[i] = 0;
+        }
         if (ts[i] < 0)
             ts[i] = 0;
     }

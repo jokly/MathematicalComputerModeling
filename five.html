@@ -36,7 +36,7 @@
     <nav class="col s12">
         <div class="nav-wrapper">
             <ul id="nav-title" class="left">
-                <li><h4>Моделирование падения тела</h4></li>
+                <li><h4>Моделирование полета тела</h4></li>
             </ul>
         </div>
     </nav>
@@ -48,74 +48,62 @@
             <div class="row">
                 <div class="col s11 offset-s1">
                     <div class="row">
-                        <div class="input-field col s6">
-                            <input id="height" type="number" class="validate" value="100" min="0">
-                            <label class="active">Высота <math><mi>h</mi></math></label>
+                        <div class="input-field col s4">
+                            <input id="mass" type="number" class="validate" value="1" min="0">
+                            <label class="active">Масса <math><mi>h</mi></math></label>
                         </div>
-
-                        <div class="input-field col s6">
-                            <input id="startSpeed" type="number" class="validate" value="5">
-                            <label class="active">Начальная скорость</label>
+                        <div class="input-field col s4">
+                            <input id="ko_u" type="number" class="validate" value="25" min="0">
+                            <label class="active">Коэфицент упругости</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="ko_t" type="number" class="validate" value="0.1">
+                            <label class="active">Коэфицент трения</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s4">
-                            <input id="finishTime" type="number" class="validate" value="25" min="0">
-                            <label class="active">Конечное время</label>
+                            <input id="startSpeed" type="number" class="validate" value="0" min="0">
+                            <label class="active">Начальная скорость <math><mi>h</mi></math></label>
                         </div>
                         <div class="input-field col s4">
-                            <input id="pointCount" type="number" class="validate" value="25" min="1">
-                            <label class="active">Колличество точек</label>
+                            <input id="startP" type="number" class="validate" value="1" min="0">
+                            <label class="active">Начальное положение</label>
                         </div>
                         <div class="input-field col s4">
-                            <input id="gravity" type="number" class="validate" value="9.8" min="0" step="0.1">
-                            <label class="active">Сила тяжести</label>
+                            <input id="avs" type="number" class="validate" value="0">
+                            <label class="active">Амплитуда внешней силы</label>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="input-field col s3">
-                            <input id="radius" type="number" class="validate" value="3" min="0">
-                            <label class="active">Радиус Шара</label>
+                        <div class="input-field col s4">
+                            <input id="pd" type="number" class="validate" value="1" min="0">
+                            <label class="active">Период действия внешней силы <math><mi>h</mi></math></label>
                         </div>
-                        <div class="input-field col s3">
-                            <input id="mass" type="number" class="validate" value="50" min="0">
-                            <label class="active">Масса шара</label>
-                        </div>
-                        <div class="input-field col s3">
-                            <input id="dens" type="number" class="validate" value="1" min="0">
-                            <label class="active">Плотность среды</label>
+                        <div class="input-field col s4">
+                            <input id="imp" type="number" class="validate" value="1" min="0">
+                            <label class="active">Импульс</label>
                         </div>
                     </div>
 
-                    <div class="col s3">
-                        <div class="row">
-                            <input id="arPower" type="checkbox">
-                            <label for="arPower">Cила Архимеда</label>
-                        </div>
-                        <div class="row">
-                            <input id="disWater" type="checkbox">
-                            <label for="disWater">Сила споротивления жидкости</label>
-                        </div>
-                        <div class="row">
-                            <input id="disGas" type="checkbox">
-                            <label for="disGas">Сила сопротивления газа</label>
-                        </div>
+                    <div class="col s3 ">
+                        <input id="vsCheck" type="checkbox">
+                        <label for="vsCheck">Внешняя сила</label>
                     </div>
-
 
                     <div class="input-field col s3">
                         <select id="typeChart">
-                            <option value="speed" selected>Скорость</option>
-                            <option value="coord">Координата</option>
-                            <option value="acc">Ускорение</option>
+                            <option value="speedX" selected>Координата X</option>
+                            <option value="speedY">Скорость</option>
+                            <option value="coordX">Энергия</option>
                         </select>
                         <label>График</label>
                     </div>
 
-                    </div>
                 </div>
+            </div>
 
             <div class="card-action">
                 <div class="row">
@@ -124,6 +112,8 @@
                         <label for="radio_chart">График</label>
                         <input type="radio" name="chart" id="radio_table">
                         <label for="radio_table">Таблица</label>
+                        <input type="radio" name="chart" id="radio_animation">
+                        <label for="radio_animation">Анимация</label>
                     </div>
                     <div class="col s4 right-align">
                         <a id="apply" class="waves-effect waves-light btn">Расчет</a>
@@ -132,9 +122,9 @@
                 </div>
             </div>
 
-            </div>
         </div>
     </div>
+</div>
 
 <div class="row" id="chart-card">
     <div class="col s12 center-align">
@@ -167,6 +157,14 @@
     </div>
 </div>
 
-<script type="text/javascript" src="js/fallingBall.js"></script>
+
+<div class="row" id="animation-card">
+    <div class="col s12 center-align">
+        <div class="card-panel">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/spring.js"></script>
 </body>
 </html>

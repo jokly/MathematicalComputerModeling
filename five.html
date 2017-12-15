@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Математическое моделирование</title>
 
-
     <!-- Materialize CSS-->
     <link rel="stylesheet" href="css/materialize.min.css">
 
@@ -26,7 +25,7 @@
                 <li><a href="index.html">Моделирование остывания кофе</a></li>
                 <li><a href="falling.html">Моделирование падения тела</a></li>
                 <li><a href="horizontal_throw.html">Моделирование полета тела</a></li>
-                <li><a href="five.html">Пятая лаба</a></li>
+                <li><a href="five.html">Пружина</a></li>
             </ul>
         </div>
     </nav>
@@ -50,7 +49,7 @@
                     <div class="row">
                         <div class="input-field col s4">
                             <input id="mass" type="number" class="validate" value="1" min="0">
-                            <label class="active">Масса <math><mi>h</mi></math></label>
+                            <label class="active">Масса</label>
                         </div>
                         <div class="input-field col s4">
                             <input id="ko_u" type="number" class="validate" value="25" min="0">
@@ -65,7 +64,7 @@
                     <div class="row">
                         <div class="input-field col s4">
                             <input id="startSpeed" type="number" class="validate" value="0" min="0">
-                            <label class="active">Начальная скорость <math><mi>h</mi></math></label>
+                            <label class="active">Начальная скорость</label>
                         </div>
                         <div class="input-field col s4">
                             <input id="startP" type="number" class="validate" value="1" min="0">
@@ -80,7 +79,7 @@
                     <div class="row">
                         <div class="input-field col s4">
                             <input id="pd" type="number" class="validate" value="1" min="0">
-                            <label class="active">Период действия внешней силы <math><mi>h</mi></math></label>
+                            <label class="active">Период действия внешней силы</label>
                         </div>
                         <div class="input-field col s4">
                             <input id="imp" type="number" class="validate" value="1" min="0">
@@ -95,9 +94,9 @@
 
                     <div class="input-field col s3">
                         <select id="typeChart">
-                            <option value="speedX" selected>Координата X</option>
-                            <option value="speedY">Скорость</option>
-                            <option value="coordX">Энергия</option>
+                            <option value="coordX" selected>Координата X</option>
+                            <option value="speed">Скорость</option>
+                            <option value="energy">Энергия</option>
                         </select>
                         <label>График</label>
                     </div>

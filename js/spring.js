@@ -62,7 +62,7 @@ function getDataTable(vals, type) {
              data.addRow([vals.ts[i], vals.vs[i]]);
         }
         else if (type === 'energy') {
-            data.addRow([vals.ts[i], vals.vs[i]]);
+            data.addRow([vals.ts[i], vals.es[i]]);
         }
     }
 
@@ -91,12 +91,103 @@ function drawChart(vals, type) {
     chart.draw(data, options);
 }
 
-function fillTable(vals) {
-
+function clearElement(elem) {
+    while (elem.firstChild) {
+        elem.removeChild(elem.firstChild);
+    }
 }
 
-function start_animation() {
+function appendElement(parent, child_type, text, options) {
+    let elem = document.createElement(child_type);
+    elem.textContent = text;
 
+    for (let key of Object.keys(options)) {
+        elem[key] = options[key];
+    }
+
+    parent.appendChild(elem);
+}
+
+function fillTable(vals) {
+    let table_head = document.getElementById('table-head');
+    let table_err_temp = document.getElementById('table-err_temp');
+
+    clearElement(table_head);
+
+    appendElement(table_head, 'th', 'Шаг', {});
+    appendElement(table_head, 'th', 'Время', {});
+    appendElement(table_head, 'th', 'Координата X', {});
+    appendElement(table_head, 'th', 'Скорость', {});
+    appendElement(table_head, 'th', 'Энергия', {});
+
+    let table_body = document.getElementById('table-body');
+    clearElement(table_body);
+
+    for (let i = 0; i < vals.xs.length; i++) {
+        let tr_el = document.createElement('tr');
+        appendElement(tr_el, 'th', i, {});
+        appendElement(tr_el, 'th', parseFloat(vals.ts[i]).toFixed(3), {});
+        appendElement(tr_el, 'th', parseFloat(vals.xs[i]).toFixed(3), {});
+        appendElement(tr_el, 'th', parseFloat(vals.vs[i]).toFixed(3), {});
+        //appendElement(tr_el, 'th', parseFloat(vals.es[i]).toFixed(3), {});
+
+        table_body.appendChild(tr_el);
+    }
+}
+
+var n = 10;
+var current_i = 0;
+
+function start_animation() {
+    var vals = getVals();
+
+    var canv = document.getElementById('canvas');
+    var ctx = canv.getContext('2d');
+
+    var width = canv.width;
+    var height = canv.height;
+
+    ctx.clearRect(0,0,width,height);
+
+    ctx.beginPath();
+    ctx.moveTo(0, height - 30);
+    ctx.lineTo(width, height - 30);
+    ctx.stroke();
+
+    if (current_i == vals.xs.length)
+        current_i = 0;
+
+    ctx.fillStyle="#FF0000";
+    ctx.fillRect(vals.xs[current_i], height - 60, 50, 30);
+    ctx.stroke();
+
+    var h = vals.xs[current_i] / n;
+
+    ctx.beginPath();
+    ctx.moveTo(0, height - 45);
+    var isTop = true;
+    for (var i = 1; i <= n; i++) {
+        if (isTop) {
+            ctx.lineTo(i * h, height - 50);
+            isTop = false;
+        }
+        else {
+            ctx.lineTo(i * h, height - 40);
+            isTop = true;
+        }
+        ctx.stroke();
+    }
+
+    current_i++;
+    window.requestAnimationFrame(start_animation)
+}
+
+function getInputVals() {
+    let startP = parseFloat(document.getElementById('startP').value); // начальное положение
+
+    return {
+        start_x: startP
+    };
 }
 
 function getVals() {
@@ -130,6 +221,7 @@ function getVals() {
 }
 
 var isRedrawChart = false;
+var isRedrawGraph = false;
 var typeChart = 'speedX';
 
 document.getElementById('apply').onclick = function() {
@@ -138,6 +230,7 @@ document.getElementById('apply').onclick = function() {
 
     if (document.getElementById('radio_chart').checked) {
         isRedrawChart = true;
+        isRedrawGraph = false;
         all_none();
         document.getElementById('chart-card').style.display = 'block';
 
@@ -145,6 +238,7 @@ document.getElementById('apply').onclick = function() {
     }
     else if (document.getElementById('radio_table').checked){
         isRedrawChart = false;
+        isRedrawGraph = false;
         all_none();
         document.getElementById('table-card').style.display = 'block';
 
@@ -152,6 +246,7 @@ document.getElementById('apply').onclick = function() {
     }
     else if (document.getElementById('radio_animation').checked) {
         isRedrawChart = false;
+        isRedrawGraph = true;
         all_none();
         document.getElementById('animation-card').style.display = 'block';
 
@@ -171,4 +266,7 @@ window.onload = function () {
     $('select').material_select();
 };
 
-window.onresize = () => { if (isRedrawChart) { drawChart(getVals(), typeChart) } };
+window.onresize = () => {
+    if (isRedrawChart) { drawChart(getVals(), typeChart) }
+    if (isRedrawGraph) { start_animation() }
+};

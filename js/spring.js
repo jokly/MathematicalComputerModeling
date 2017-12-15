@@ -1,5 +1,13 @@
 google.charts.load('current', {'packages':['corechart']});
 
+function energy(m, k, vs, xs) {
+    let es = [];
+    for (let i = 0; i < xs.length; i++) {
+        es.push(0.5 * m * vs[i] * vs[i] + 0.5 * k * xs[i] * xs[i]);
+    }
+    return es;
+}
+
 function _solve(a, b, n, x0, v0, w0, gamma, f) {
     let h = (b - a) / (n - 1);
     let xs = [x0];
@@ -36,7 +44,16 @@ function _solve(a, b, n, x0, v0, w0, gamma, f) {
 function solve(a, b, n, m, k, gamma, v0, x0, A, T, p) {
     let w0 = Math.sqrt(k / m);
     let f = function(t) { return A * (1 - Math.cos(2 * Math.PI * t / T)) / 2.0 + p; };
-    return _solve(a, b, n, x0, v0, w0, gamma, f);
+
+    let vals = _solve(a, b, n, x0, v0, w0, gamma, f);
+    let es = energy(m, k, vals.vs, vals.xs);
+
+    return {
+        ts: vals.ts,
+        xs: vals.xs,
+        vs: vals.vs,
+        es: es
+    };
 }
 
 function getDataTable(vals, type) {
@@ -129,7 +146,7 @@ function fillTable(vals) {
         appendElement(tr_el, 'th', parseFloat(vals.ts[i]).toFixed(3), {});
         appendElement(tr_el, 'th', parseFloat(vals.xs[i]).toFixed(3), {});
         appendElement(tr_el, 'th', parseFloat(vals.vs[i]).toFixed(3), {});
-        //appendElement(tr_el, 'th', parseFloat(vals.es[i]).toFixed(3), {});
+        appendElement(tr_el, 'th', parseFloat(vals.es[i]).toFixed(3), {});
 
         table_body.appendChild(tr_el);
     }

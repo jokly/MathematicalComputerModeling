@@ -26,6 +26,7 @@
                 <li><a href="falling.html">Моделирование падения тела</a></li>
                 <li><a href="horizontal_throw.html">Моделирование полета тела</a></li>
                 <li><a href="five.html">Пружина</a></li>
+                <li><a href="six.html">Маятник</a></li>
             </ul>
         </div>
     </nav>
@@ -35,7 +36,7 @@
     <nav class="col s12">
         <div class="nav-wrapper">
             <ul id="nav-title" class="left">
-                <li><h4>Моделирование движения гармонического маятника</h4></li>
+                <li><h4>Моделирование математического и физического маятников</h4></li>
             </ul>
         </div>
     </nav>
@@ -48,55 +49,76 @@
                 <div class="col s11 offset-s1">
                     <div class="row">
                         <div class="input-field col s4">
-                            <input id="mass" type="number" class="validate" value="1" min="0">
-                            <label class="active">Масса</label>
+                            <input id="mass" type="number" class="validate" value="10" min="0">
+                            <label class="active">Масса тела</label>
                         </div>
                         <div class="input-field col s4">
-                            <input id="ko_u" type="number" class="validate" value="0.1" min="0">
-                            <label class="active">Коэфицент упругости</label>
+                            <input id="radius" type="number" class="validate" value="1" min="0">
+                            <label class="active">Радиус тела</label>
                         </div>
                         <div class="input-field col s4">
-                            <input id="ko_t" type="number" class="validate" value="0.1">
-                            <label class="active">Коэфицент трения</label>
+                            <input id="length" type="number" class="validate" value="1">
+                            <label class="active">Длина стержня</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s4">
-                            <input id="startSpeed" type="number" class="validate" value="1" min="0">
+                            <input id="startSpeed" type="number" class="validate" value="0" min="0">
                             <label class="active">Начальная скорость</label>
                         </div>
                         <div class="input-field col s4">
-                            <input id="startP" type="number" class="validate" value="30" min="0">
-                            <label class="active">Начальное положение</label>
+                            <input id="startCorner" type="number" class="validate" value="1" min="0">
+                            <label class="active">Начальный угол</label>
                         </div>
                         <div class="input-field col s4">
                             <input id="avs" type="number" class="validate" value="0">
-                            <label class="active">Амплитуда внешней силы</label>
+                            <label class="active">Амплитуда ветра силы</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s4">
-                            <input id="pd" type="number" class="validate" value="1" min="0">
-                            <label class="active">Период действия внешней силы</label>
+                            <input id="chv" type="number" class="validate" value="1" min="0">
+                            <label class="active">Частота действия ветра</label>
                         </div>
                         <div class="input-field col s4">
-                            <input id="imp" type="number" class="validate" value="1" min="0">
+                            <input id="wind" type="number" class="validate" value="1" min="0">
+                            <label class="active">Постоянный ветер</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="imp" type="number" class="validate" value="0" min="0">
                             <label class="active">Импульс</label>
                         </div>
                     </div>
 
-                    <div class="col s3 ">
-                        <input id="vsCheck" type="checkbox">
-                        <label for="vsCheck">Внешняя сила</label>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="plSr" type="number" class="validate" value="1" min="0">
+                            <label class="active">Плотность среды</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="vSr" type="number" class="validate" value="1" min="0">
+                            <label class="active">Вязкость среды</label>
+                        </div>
+                    </div>
+
+                    <div class="col s3">
+                        <input id="arPower" type="checkbox">
+                        <label for="arPower">Сила Архимеда</label>
+
+                        <input id="gasPower" type="checkbox">
+                        <label for="gasPower">Сила сопротивления газа</label>
+
+                        <input id="waterPower" type="checkbox">
+                        <label for="waterPower">Сила сопротивления жидкости</label>
                     </div>
 
                     <div class="input-field col s3">
                         <select id="typeChart">
-                            <option value="coordX" selected>Координата X</option>
-                            <option value="speed">Скорость</option>
-                            <option value="energy">Энергия</option>
+                            <option value="coordX" selected>Угол</option>
+                            <option value="speed">Угловая скорость</option>
+                            <option value="energy">Полная энергия</option>
                         </select>
                         <label>График</label>
                     </div>
@@ -165,6 +187,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="js/spring.js"></script>
+<script type="text/javascript" src="js/six.js"></script>
 </body>
 </html>

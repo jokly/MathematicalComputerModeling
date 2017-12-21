@@ -1,33 +1,116 @@
 google.charts.load('current', {'packages':['corechart']});
 
+function energy(m, l, os, vs) {
+    let es = [];
+    let g = 9.8;
+    for (let i = 0; i < os.length; i++) {
+        es.push(m * g * l * (1 - Math.cos(os[i])) + 0.5 * m * vs[i] * vs[i]);
+    }
+    return es;
+}
+
+function _solve(a, b, n, o0, w0, l, f, m) {
+    let h = (b - a) / (n - 1);
+
+    let ts = [a]; // время
+    let os = [o0]; // углы отклонения
+    let ws = [w0]; // уловые скорости
+    let vs = [l * w0]; // линейные скорости
+    let as = [l * f(o0, vs[0], a)]; // линейные ускорения
+
+    for (let i = 1; i < n; i++) {
+        ts.push(a + i * h);
+        ws.push(ws[i - 1] + h * f(os[i - 1], vs[i - 1], ts[i]));
+        os.push(os[i - 1] + h * ws[i]);
+        vs.push(l * ws[i]);
+        as.push(l * f(os[i], vs[i], ts[i]));
+    }
+
+    let es = energy(m, l, os, vs);
+
+    return {
+        ws: ws,
+        os: os,
+        vs: vs,
+        as: as,
+        ts: ts,
+        es: es
+    };
+}
+
+// a - начальное время
+// b - конечное время
+// n - кол-во точек
+// m - масса
+// r - радиус шара
+// l - длина стержня
+// w0 - начальная угловая скорость
+// o0 - начальный угол отклонения
+// wind_a - амплитуда ветра
+// wind_w - период ветра
+// wind_c - сила ветра
+// d_env - плотность среды
+// c - вязкость
+// fc1_enabled - сопр-е жидкости
+// fc2_enabled - сопр-е газа
+function solve(a, b, n, m, r, l, w0, o0, wind_a, wind_w, wind_c, d_env, c, fc1_enabled, fc2_enabled, fa_enabled) {
+    let g = 9.8;
+
+    let vol = 4 / 3 * Math.PI * Math.pow(r, 3);
+    let d = m / vol;
+
+    let k1 = 6 * Math.PI * c * d_env * r;
+    let s = Math.PI * Math.pow(r, 2);
+    let k2 = 0.5 * 0.2 * d_env * s;
+
+    let fa = d_env * g;
+
+    let u = function(t) {
+        return wind_c + wind_a * Math.cos(wind_w * t);
+    };
+
+    let f = function(theta, v, t) {
+        return -(g / l) * Math.sin(theta) - u(t) - k1 * v * fc1_enabled - k2 * Math.abs(v) * v * fc2_enabled + fa * fa_enabled;
+    };
+
+    return _solve(a, b, n, o0, w0, l, f, m);
+}
+
 function getDataTable(vals, type) {
     let data = new google.visualization.DataTable();
 
-    data.addColumn('number', 'X');
+    data.addColumn('number', 'Время');
+    data.addColumn('number', 'Угол');
+    data.addColumn('number', 'Угловая скорость');
+    data.addColumn('number', 'Энергия');
 
-    if (type === 'coordX') {
-        data.addColumn('number', 'Координата X');
-    }
-    else if (type === 'speed') {
-        data.addColumn('number', 'Скорость');
-    }
-    else if (type === 'energy') {
-        data.addColumn('number', 'Энергия');
+    for (let i = 0; i < vals.ts.length; i++) {
+        data.addRow([vals.ts[i], vals.os[i], vals.ws[i], vals.es[i]]);
     }
 
-    for (let i = 0; i < vals.xs.length; i++) {
-        if (type === 'coordX') {
-            data.addRow([vals.ts[i], vals.xs[i]]);
-        }
-        else if (type === 'speed') {
-            data.addRow([vals.ts[i], vals.vs[i]]);
-        }
-        else if (type === 'energy') {
-            data.addRow([vals.ts[i], vals.es[i]]);
-        }
-    }
+    // if (type === 'corner') {
+    //     data.addColumn('number', 'Угол');
+    // }
+    // else if (type === 'cornerSpeed') {
+    //     data.addColumn('number', 'Угловая скорость');
+    // }
+    // else if (type === 'energy') {
+    //     data.addColumn('number', 'Энергия');
+    // }
+    //
+    // for (let i = 0; i < vals.xs.length; i++) {
+    //
+    //     if (type === 'coordX') {
+    //         data.addRow([vals.ts[i], vals.xs[i]]);
+    //     }
+    //     else if (type === 'speed') {
+    //         data.addRow([vals.ts[i], vals.vs[i]]);
+    //     }
+    //     else if (type === 'energy') {
+    //         data.addRow([vals.ts[i], vals.es[i]]);
+    //     }
+    // }
 
-    let ttttt = 0;
 
     return data;
 }
@@ -43,7 +126,7 @@ function drawChart(vals, type) {
             actions: ['dragToZoom', 'rightClickToReset'],
             axis: 'horizontal',
             keepInBounds: true,
-            maxZoomIn: 10.0
+            maxZoomIn: 1000.0
         },
         pointSize: 1
     };
@@ -77,24 +160,41 @@ function fillTable(vals) {
 
     appendElement(table_head, 'th', 'Шаг', {});
     appendElement(table_head, 'th', 'Время', {});
-    appendElement(table_head, 'th', 'Координата X', {});
-    appendElement(table_head, 'th', 'Скорость', {});
+    appendElement(table_head, 'th', 'Угол', {});
+    appendElement(table_head, 'th', 'Угловая скорость', {});
     appendElement(table_head, 'th', 'Энергия', {});
 
     let table_body = document.getElementById('table-body');
     clearElement(table_body);
 
-    for (let i = 0; i < vals.xs.length; i++) {
+    for (let i = 0; i < vals.ts.length; i++) {
         let tr_el = document.createElement('tr');
         appendElement(tr_el, 'th', i, {});
         appendElement(tr_el, 'th', parseFloat(vals.ts[i]).toFixed(3), {});
-        appendElement(tr_el, 'th', parseFloat(vals.xs[i]).toFixed(3), {});
-        appendElement(tr_el, 'th', parseFloat(vals.vs[i]).toFixed(3), {});
+        appendElement(tr_el, 'th', parseFloat(vals.os[i]).toFixed(3), {});
+        appendElement(tr_el, 'th', parseFloat(vals.ws[i]).toFixed(3), {});
         appendElement(tr_el, 'th', parseFloat(vals.es[i]).toFixed(3), {});
 
         table_body.appendChild(tr_el);
     }
 }
+
+// a - начальное время
+// b - конечное время
+// n - кол-во точек
+// m - масса
+// r - радиус шара
+// l - длина стержня
+// w0 - начальная угловая скорость
+// o0 - начальный угол отклонения
+// wind_a - амплитуда ветра
+// wind_w - период ветра
+// wind_c - сила ветра
+// d_env - плотность среды
+// c - вязкость
+// fc1_enabled - сопр-е жидкости
+// fc2_enabled - сопр-е газа
+//function solve(a, b, n, m, r, l, w0, o0, wind_a, wind_w, wind_c, d_env, c, fc1_enabled, fc2_enabled, fa_enabled)
 
 function getVals() {
     let mass = parseFloat(document.getElementById('mass').value); // масса
@@ -111,19 +211,18 @@ function getVals() {
 
 
     let arPowerCheck = document.getElementById('arPower').checked; // сила архимеда
-    let gasPower = document.getElementById('gasPower').checked; // сила газа
+    let gasPowerCheck = document.getElementById('gasPower').checked; // сила газа
     let waterPowerCheck = document.getElementById('waterPower').checked; // сила воды
+
+    return solve(0,1,100,mass,radius, length, startSpeed, startCorner, avs, chv, wind, plSr, vSr, waterPowerCheck, gasPowerCheck, arPowerCheck)
 
 }
 
 var isRedrawChart = false;
 var isRedrawGraph = false;
-var typeChart = 'speedX';
+var typeChart = 'corner';
 
 document.getElementById('apply').onclick = function() {
-    let typeChartEl = document.getElementById("typeChart");
-    typeChart = typeChartEl.options[typeChartEl.selectedIndex].value;
-
     if (document.getElementById('radio_chart').checked) {
         isRedrawChart = true;
         isRedrawGraph = false;

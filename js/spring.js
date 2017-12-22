@@ -154,10 +154,9 @@ function fillTable(vals) {
 
 var n = 10;
 var current_i = 0;
+var anim_vals;
 
 function start_animation() {
-    var vals = getVals();
-
     var canv = document.getElementById('canvas');
     var ctx = canv.getContext('2d');
 
@@ -171,14 +170,14 @@ function start_animation() {
     ctx.lineTo(width, height - 30);
     ctx.stroke();
 
-    if (current_i == vals.xs.length)
+    if (current_i == anim_vals.xs.length)
         current_i = 0;
 
     ctx.fillStyle="#FF0000";
-    ctx.fillRect(vals.xs[current_i], height - 60, 50, 30);
+    ctx.fillRect(anim_vals.xs[current_i], height - 60, 50, 30);
     ctx.stroke();
 
-    var h = vals.xs[current_i] / n;
+    var h = anim_vals.xs[current_i] / n;
 
     ctx.beginPath();
     ctx.moveTo(0, height - 45);
@@ -196,6 +195,7 @@ function start_animation() {
     }
 
     current_i++;
+    
     window.requestAnimationFrame(start_animation)
 }
 
@@ -207,7 +207,7 @@ function getInputVals() {
     };
 }
 
-function getVals() {
+function getVals(isAnim = false) {
     let mass = parseFloat(document.getElementById('mass').value); // масса
     let ko_u = parseFloat(document.getElementById('ko_u').value); // коэф упругости
     let ko_t = parseFloat(document.getElementById('ko_t').value); // коэф трения
@@ -231,8 +231,11 @@ function getVals() {
 
     // TODO
     let a = 0;
-    let b = 100;
-    let n = 100;
+    let b = 60;
+    let n = 60;
+
+    if (isAnim)
+        n = 1000;
 
     return solve(a, b, n, mass, ko_u, gamma, v0, x0, avs, pd, imp);
 }
@@ -267,6 +270,7 @@ document.getElementById('apply').onclick = function() {
         all_none();
         document.getElementById('animation-card').style.display = 'block';
 
+        anim_vals = getVals(true);
         start_animation();
     }
 };

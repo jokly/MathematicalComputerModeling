@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Математическое моделирование</title>
+
+    <!-- Materialize CSS-->
+    <link rel="stylesheet" href="css/materialize.min.css">
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="js/lib/jquery-3.2.1.min.js"></script>
+    <!-- Materialize JS-->
+    <script type="text/javascript" src="js/lib/materialize.min.js"></script>
+    <!-- GoogleCharts -->
+    <script type="text/javascript" src="js/lib/loader.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/favicon.ico">
+</head>
+<body class="container">
+<div class="row" id="menu">
+    <nav class="col s12">
+        <div class="nav-wrapper">
+            <ul id="nav-mobile" class="left">
+                <li><a href="index.html">Моделирование остывания кофе</a></li>
+                <li><a href="falling.html">Моделирование падения тела</a></li>
+                <li><a href="horizontal_throw.html">Моделирование полета тела</a></li>
+                <li><a href="five.html">Пружина</a></li>
+                <li><a href="six.html">Маятник</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="row" id="title">
+    <nav class="col s12">
+        <div class="nav-wrapper">
+            <ul id="nav-title" class="left">
+                <li><h4>Моделирование математического и физического маятников</h4></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="row" id="mainCard">
+    <div class="col s12">
+        <div class="card-panel">
+            <div class="row">
+                <div class="col s11 offset-s1">
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input id="mass" type="number" class="validate" value="10" min="0">
+                            <label class="active">Масса тела</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="radius" type="number" class="validate" value="1" min="0">
+                            <label class="active">Радиус тела</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="length" type="number" class="validate" value="1">
+                            <label class="active">Длина стержня</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input id="startSpeed" type="number" class="validate" value="0" min="0">
+                            <label class="active">Начальная скорость</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="startCorner" type="number" class="validate" value="1" min="0">
+                            <label class="active">Начальный угол</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="avs" type="number" class="validate" value="0">
+                            <label class="active">Амплитуда ветра силы</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input id="chv" type="number" class="validate" value="1" min="0">
+                            <label class="active">Частота действия ветра</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="wind" type="number" class="validate" value="1" min="0">
+                            <label class="active">Постоянный ветер</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="imp" type="number" class="validate" value="0" min="0">
+                            <label class="active">Импульс</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="plSr" type="number" class="validate" value="1" min="0">
+                            <label class="active">Плотность среды</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="vSr" type="number" class="validate" value="1" min="0">
+                            <label class="active">Вязкость среды</label>
+                        </div>
+                    </div>
+
+                    <div class="col s3">
+                        <input id="arPower" type="checkbox">
+                        <label for="arPower">Сила Архимеда</label>
+
+                        <input id="gasPower" type="checkbox">
+                        <label for="gasPower">Сила сопротивления газа</label>
+
+                        <input id="waterPower" type="checkbox">
+                        <label for="waterPower">Сила сопротивления жидкости</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card-action">
+                <div class="row">
+                    <div class="col s7 offset-s1">
+                        <input type="radio" name="chart" id="radio_chart" checked>
+                        <label for="radio_chart">График</label>
+                        <input type="radio" name="chart" id="radio_table">
+                        <label for="radio_table">Таблица</label>
+                        <input type="radio" name="chart" id="radio_animation">
+                        <label for="radio_animation">Анимация</label>
+                    </div>
+                    <div class="col s4 right-align">
+                        <a id="apply" class="waves-effect waves-light btn">Расчет</a>
+                        <a id = "download_csv" class="waves-effect waves-light btn" href="#">Скачать</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row" id="chart-card">
+    <div class="col s12 center-align">
+        <div class="card-panel">
+            <div id="curve_chart" style="width: 100%; height: 400px"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="table-card">
+    <div class="col s12 center-align">
+        <div class="card-action">
+            <div class="row" id="table">
+                <div class="col s12 center-align">
+                    <div class="card-panel">
+                        <table class="highlight centered">
+                            <thead class="centered">
+                            <tr id="table-head">
+
+                            </tr>
+                            </thead>
+                            <tbody id="table-body" class="centered">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row" id="animation-card">
+    <div class="col s12 center-align">
+        <div class="card-panel">
+            <canvas id="canvas" style="width: 100%; height: 400px"></canvas>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/six.js"></script>
+</body>
+</html>
